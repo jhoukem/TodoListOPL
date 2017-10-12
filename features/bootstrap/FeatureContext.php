@@ -1,15 +1,19 @@
 <?php
 
+// To avoid the kernel exception due to WebtestCase...
+$_SERVER['KERNEL_DIR'] = __DIR__ . '/../../app/';
+
 use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use PHPUnit_Framework_Assert as Assert;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext implements Context
+class FeatureContext extends WebTestCase implements Context
 {
     /**
      * Initializes context.
@@ -27,6 +31,7 @@ class FeatureContext implements Context
      */
     public function iAmOnThePageOfTheWebApplication($arg1)
     {
+        $client = static::createClient();
        // throw new PendingException();
     }
 
@@ -51,6 +56,7 @@ class FeatureContext implements Context
      */
     public function theTaskShouldAppearOnTheTaskList($arg1)
     {
+        //throw new Exception('TODO');
        Assert::assertEquals(1, 1);
     }
 }
