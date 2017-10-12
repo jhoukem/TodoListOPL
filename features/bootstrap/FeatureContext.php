@@ -31,7 +31,6 @@ class FeatureContext extends WebTestCase implements Context
      */
     public function iAmOnThePageOfTheWebApplication($arg1)
     {
-        $client = static::createClient();
        // throw new PendingException();
     }
 
@@ -52,11 +51,19 @@ class FeatureContext extends WebTestCase implements Context
     }
 
     /**
-     * @Then The task :arg1 should appear on the task list
+     * @Then The task :task should appear on the task list
      */
-    public function theTaskShouldAppearOnTheTaskList($arg1)
+    public function theTaskShouldAppearOnTheTaskList($task)
     {
         //throw new Exception('TODO');
-       Assert::assertEquals(1, 1);
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/');
+        $this->assertGreaterThan(
+            0,
+            $crawler->filter('html:contains("'.$task.'")')->count()
+        );
+        echo "the count is = ". $crawler->filter('html:contains("'.$task.'")')->count();
+        
+       //Assert::assertEquals(1, 1);
     }
 }

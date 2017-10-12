@@ -10,6 +10,6 @@ Feature: Task list
 
   Scenario: Create a task
     Given I am on the "task_create" page of the web application
-    When I fill the create task form with the value "hello world"
+    When I fill the create task form with the value "Hello World"
     And I save the new task
-    Then The task "hello world" should appear on the task list
+    Then The task "Hello World" should appear on the task list
