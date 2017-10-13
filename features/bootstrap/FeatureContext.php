@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class FeatureContext extends WebTestCase implements Context
 {
+    
     /**
      * Initializes context.
      *
@@ -24,22 +25,25 @@ class FeatureContext extends WebTestCase implements Context
      */
     public function __construct()
     {
+     
     }
 
     /**
-     * @Given I am on the :arg1 page of the web application
+     * @Given I am on the :page page of the web application
      */
-    public function iAmOnThePageOfTheWebApplication($arg1)
+    public function iAmOnThePageOfTheWebApplication($page)
     {
-       // throw new PendingException();
+       //$client = static::createClient();
+       //$crawler = $client->request('GET', '/'. $page);
     }
 
     /**
-     * @When I fill the create task form with the value :arg1
+     * @When I fill the create task form with the value :text
      */
-    public function iFillTheCreateTaskFormWithTheValue($arg1)
+    public function iFillTheCreateTaskFormWithTheValue($text)
     {
-       // throw new PendingException();
+       //$client = static::createClient();
+       //$crawler = $client->request('GET', '/'. $page);
     }
 
     /**
@@ -47,7 +51,7 @@ class FeatureContext extends WebTestCase implements Context
      */
     public function iSaveTheNewTask()
     {
-       // throw new PendingException();
+        
     }
 
     /**
@@ -55,15 +59,25 @@ class FeatureContext extends WebTestCase implements Context
      */
     public function theTaskShouldAppearOnTheTaskList($task)
     {
-        //throw new Exception('TODO');
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/');
-        $this->assertGreaterThan(
+     
+      $client = static::createClient();
+      $crawler = $client->request('GET', '/task/create');
+      
+      $form = $crawler->selectButton('submit')->form();
+
+      // set some values
+    //  $form['text'] = $task;
+      // submit the form
+      //$crawler = $client->submit($form);
+      
+      /*$this->assertContains(
+        'Hello World',
+            $client->getResponse()->getContent()
+        );
+      
+     /* $this->assertGreaterThan(
             0,
             $crawler->filter('html:contains("'.$task.'")')->count()
-        );
-        echo "the count is = ". $crawler->filter('html:contains("'.$task.'")')->count();
-        
-       //Assert::assertEquals(1, 1);
+      );*/
     }
 }

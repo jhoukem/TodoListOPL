@@ -1,0 +1,27 @@
+{% extends "::base.html.twig" %}
+
+{%block body %}   
+    
+    <h3> Tasks list. </h3>   
+    
+    {% for task in task_list %}
+        <p>{{ task.text }} <input id="checkBox" type="checkbox" disabled
+                            {{ task.completed ? "checked" : "unchecked"}}></p>
+        <a href="{{ path('task_delete', { 'id':task.id }) }}" class="btn btn-danger">Delete</a>
+        
+        {% if task.completed %}
+            <a href="{{ path('task_update', { 'id':task.id }) }}" class="btn btn-primary">Undo</a>
+        {% else %}
+            <a href="{{ path('task_update', { 'id':task.id }) }}" class="btn btn-primary">Done</a>
+        {% endif %}
+        <hr>
+    {% endfor %}
+   
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type='text/javascript'>
+        $('#nav-btn-todo-list').addClass('active');
+    </script>
+{% endblock %}
