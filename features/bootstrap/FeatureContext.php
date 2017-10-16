@@ -28,30 +28,22 @@ class FeatureContext extends WebTestCase implements Context
      
     }
 
-    /**
-     * @Given I am on the :page page of the web application
-     */
-    public function iAmOnThePageOfTheWebApplication($page)
-    {
-       //$client = static::createClient();
-       //$crawler = $client->request('GET', '/'. $page);
-    }
 
     /**
-     * @When I fill the create task form with the value :text
+     * @Given I create the task :task on the web application
      */
-    public function iFillTheCreateTaskFormWithTheValue($text)
+    public function iCreateTheTaskOnTheWebApplication($task)
     {
-       //$client = static::createClient();
-       //$crawler = $client->request('GET', '/'. $page);
-    }
+      $client = static::createClient();
+      $crawler = $client->request('GET', '/task/create');
+      
+      $form = $crawler->selectButton('Create')->form();
 
-    /**
-     * @When I save the new task
-     */
-    public function iSaveTheNewTask()
-    {
-        
+      // Set the task values
+      $form->setValues(array('taskbundle_task[text]' => $task));
+      // submit the form
+      $client->submit($form);
+      
     }
 
     /**
@@ -59,25 +51,56 @@ class FeatureContext extends WebTestCase implements Context
      */
     public function theTaskShouldAppearOnTheTaskList($task)
     {
-     
       $client = static::createClient();
-      $crawler = $client->request('GET', '/task/create');
+      $client->request('GET', '/tasks');
       
-      $form = $crawler->selectButton('submit')->form();
+      $this->assertContains(
+        $task,
+            $client->getResponse()->getContent()
+      );
+      
+    }
 
-      // set some values
-    //  $form['text'] = $task;
-      // submit the form
-      //$crawler = $client->submit($form);
+    /**
+     * @Given I have a task :task on the web application
+     */
+    public function iHaveATaskOnTheWebApplication($task)
+    {
+      $client = static::createClient();
+      $client->request('GET', '/tasks');
       
-      /*$this->assertContains(
-        'Hello World',
+      $this->assertContains(
+        $task,
+            $client->getResponse()->getContent()
+      );
+    }
+    
+    /**
+     * @Given I delete the task :task on the web application
+     */
+    public function iDeleteTheTaskOnTheWebApplication($task)
+    {
+      $client = static::createClient();
+      $crawler = $client->request('GET', '/tasks');
+      
+      // Select the delete link
+      $link = $crawler->filter('[id="'.$task.'"] > .btn-danger')->eq(0)->link();
+      // Click on the delete link
+      $client->click($link);
+    }
+
+    /**
+     * @Then The task :task should not appear on the task list
+     */
+    public function theTaskShouldNotAppearOnTheTaskList($task)
+    {
+      $client = static::createClient();
+      $client->request('GET', '/tasks');
+      
+      $this->assertNotContains(
+        $task,
             $client->getResponse()->getContent()
         );
-      
-     /* $this->assertGreaterThan(
-            0,
-            $crawler->filter('html:contains("'.$task.'")')->count()
-      );*/
     }
+    
 }

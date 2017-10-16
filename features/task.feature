@@ -9,7 +9,10 @@ Feature: Task list
   - No rules yet
 
   Scenario: Create a task
-    Given I am on the "task_create" page of the web application
-    When I fill the create task form with the value "Hello World"
-    And I save the new task
+    Given I create the task "Hello World" on the web application
     Then The task "Hello World" should appear on the task list
+
+Scenario: Delete a task
+    Given I have a task "Hello World" on the web application
+    And I delete the task "Hello World" on the web application
+    Then The task "Hello World" should not appear on the task list
