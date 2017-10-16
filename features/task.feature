@@ -8,11 +8,23 @@ Feature: Task list
   Rules:
   - No rules yet
 
-  Scenario: Create a task
-    Given I create the task "Hello World" on the web application
-    Then The task "Hello World" should appear on the task list
+  Scenario Outline: Create a task
+    Given I create the task <task> on the web application
+    Then The task <task> should appear on the task list
 
-Scenario: Delete a task
-    Given I have a task "Hello World" on the web application
-    And I delete the task "Hello World" on the web application
-    Then The task "Hello World" should not appear on the task list
+    Examples:
+      |     task      |
+      | "Hello World" |
+      |     Foo       |
+      |     Bar       |
+
+Scenario Outline: Delete a task
+    Given I have a task <task> on the web application
+    And I delete the task <task> on the web application
+    Then The task <task> should not appear on the task list
+
+    Examples:
+      |     task      |
+      | "Hello World" |
+      |     Foo       |
+      |     Bar       |
