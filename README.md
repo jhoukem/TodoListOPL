@@ -3,6 +3,20 @@
 Le site permet de créer/supprimer des todos ainsi que de les marquer comme validés. Il n'y a pas de gestion d'utilisateur.  
 
 Vous aurez besoin du paquet php5-sqlite pour la base de données `sudo apt install php5-sqlite`.  
+
+## Depuis l'archive
+
+Il vous suffit juste de lancer le serveur avec la commande :  
+`php bin/console server:start`.  
+Les tests se lancent avec la commande :  
+`vendor/bin/behat`  
+(test de création et de suppression de todo).  
+Il n'existe que des tests d'acceptation pour le moment car pas assez de fonctionnalités pour faire des tests unitaires (pas de classe métier importante).  
+On a eu des difficultés à bien comprendre ce qui était censé être testé, s'ajoute à cela l'utilisation d'outils nouveau tel le crawler en php (une sorte de Selenium) qu'on à eu du mal à faire fonctionner... 
+
+## Depuis github (au cas ou il y a un soucis avec l'archive)
+
+[Lien du github](https://github.com/jhoukem/TodoListOPL)  
 L'installation des autres dépendances se fait avec la commande  
 `php composer.phar update`.  
 (Vous n'avez qu'à appuyer sur entrée à chaque question il n'y a rien de spécial à faire).
