@@ -20,33 +20,48 @@ class DefaultController extends Controller
     
     public function taskDeleteAction(Request $request, $id)
     {
-         $em = $this->getDoctrine()->getManager();
-         $task = $em->getRepository("TaskBundle:Task")->findOneById($id);
-         $em->remove($task);
-         $em->flush();
-         $request->getSession()->getFlashBag()->add('notice', 'The task has been deleted.');
-         return $this->redirectToRoute('task_list');
+        $em = $this->getDoctrine()->getManager();
+        $task = $em->getRepository("TaskBundle:Task")->findOneById($id);
+        if($task != null){
+            $em->remove($task);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('notice', 'The task has been deleted.');
+        } else {
+             $request->getSession()->getFlashBag()->add('error', 'The task could not been found.');
+        }
+         
+        return $this->redirectToRoute('task_list');
     }
     
     public function taskDeleteFirstAction(Request $request)
     {
-         $em = $this->getDoctrine()->getManager();
-         $task = $em->getRepository("TaskBundle:Task")->findOneBy(array(), array('id' => 'ASC'));
-         $em->remove($task);
-         $em->flush();
-         $request->getSession()->getFlashBag()->add('notice', 'The task has been deleted.');
-         return $this->redirectToRoute('task_list');
+        $em = $this->getDoctrine()->getManager();
+        $task = $em->getRepository("TaskBundle:Task")->findOneBy(array(), array('id' => 'ASC'));
+         
+        if($task != null){
+            $em->remove($task);
+            $em->flush();
+            $request->getSession()->getFlashBag()->add('notice', 'The task has been deleted.');
+        } else {
+            $request->getSession()->getFlashBag()->add('error', 'The task could not been found.');
+        }
+        return $this->redirectToRoute('task_list');
     }
     
     public function taskUpdateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $task = $em->getRepository("TaskBundle:Task")->findOneById($id);
-        // Set it to the oposite of what it is now.
-        $task->setCompleted(!$task->getCompleted());
-        $em->persist($task);
-        $em->flush();  
-        $request->getSession()->getFlashBag()->add('notice', 'The task has been updated.');
+       
+        if($task != null){
+            // Set it to the oposite of what it is now.
+            $task->setCompleted(!$task->getCompleted());
+            $em->persist($task);
+            $em->flush();  
+            $request->getSession()->getFlashBag()->add('notice', 'The task has been updated.');
+        } else {
+            $request->getSession()->getFlashBag()->add('error', 'The task could not been found.');
+        }
         return $this->redirectToRoute('task_list');
     }
     
