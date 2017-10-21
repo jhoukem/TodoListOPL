@@ -28,6 +28,16 @@ class DefaultController extends Controller
          return $this->redirectToRoute('task_list');
     }
     
+    public function taskDeleteFirstAction(Request $request)
+    {
+         $em = $this->getDoctrine()->getManager();
+         $task = $em->getRepository("TaskBundle:Task")->findOneBy(array(), array('id' => 'ASC'));
+         $em->remove($task);
+         $em->flush();
+         $request->getSession()->getFlashBag()->add('notice', 'The task has been deleted.');
+         return $this->redirectToRoute('task_list');
+    }
+    
     public function taskUpdateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();

@@ -11,7 +11,10 @@ task_delete:
     defaults: { _controller: TaskBundle:Default:taskDelete }
     requirements:
         id: \d+
-        
+task_delete_first:
+    path:     /task/delete/first
+    defaults: { _controller: TaskBundle:Default:taskDeleteFirst }
+
 task_update:
     path:     /task/update/{id}
     defaults: { _controller: TaskBundle:Default:taskUpdate }
